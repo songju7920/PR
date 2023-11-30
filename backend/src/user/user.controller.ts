@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { loginDto } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/signup.dto';
 
 @Controller('user')
@@ -17,3 +17,15 @@ export class UserController {
       message: '유저 생성 성공',
     });
   }
+
+  @Post('/login')
+  async login(@Body() loginDto: LoginDto) {
+    const data = await this.userService.login(loginDto);
+
+    return Object.assign({
+      data,
+      statusCode: 200,
+      message: '로그인 성공',
+    });
+  }
+}
