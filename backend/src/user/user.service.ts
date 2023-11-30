@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Major } from './entities/major.entity';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { loginDto } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
@@ -39,3 +39,40 @@ export class UserService {
 
     return newUser;
   }
+
+  async login(loginDto: LoginDto): Promise<object> {
+    const { userData, password } = loginDto;
+
+    const thisUser = await this.user.findOneBy([{ username: userData }, { mail: userData }]);
+    if (!thisUser) throw new NotFoundException('찾을 수 없는 유저');
+
+    const isMatch = await bcrypt.compare(password, thisUser.password);
+    if (!isMatch) throw new ForbiddenException('비밀번호 불일치');
+
+    const payload = { userId: thisUser.userId };
+
+    const accessToken = await this.generateAccess(payload);
+    const refreshToken = await this.generateRefresh(payload);
+
+    this.redis.set(`${thisUser.userId}accessToken`, accessToken);
+    this.redis.set(`${thisUser.userId}refreshToken`, refreshToken);
+
+    return { accessToken, refreshToken };
+  }
+
+  async generateAccess(userPayload: UserPayloadDto) {
+    const accessToken = await this.jwt.sign(userPayload, {
+      secret: process.env.SECRET,
+    });
+
+    return accessToken;
+  }
+
+  async generateRefresh(userPayload: UserPayloadDto) {
+    const refreshToken = await this.jwt.sign(userPayload, {
+      secret: process.env.SECRET,
+    });
+
+    return refreshToken;
+  }
+}
