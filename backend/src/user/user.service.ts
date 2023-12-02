@@ -1,6 +1,5 @@
-import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Major } from './entities/major.entity';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { LoginDto } from './dto/login.dto';
@@ -10,13 +9,13 @@ import { Redis } from 'ioredis';
 import { JwtService } from '@nestjs/jwt';
 import { UserPayloadDto } from './dto/userPayload.dto';
 import { SignupDto } from './dto/signup.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRedis() private readonly redis: Redis,
     @InjectRepository(User) private user: Repository<User>,
-    @InjectRepository(Major) private major: Repository<Major>,
     private jwt: JwtService,
   ) {}
 
@@ -105,11 +104,36 @@ export class UserService {
     return accessToken;
   }
 
-  async generateRefresh(userPayload: UserPayloadDto) {
+  async generateRefresh(userPayload: UserPayloadDto): Promise<string> {
     const refreshToken = await this.jwt.sign(userPayload, {
       secret: process.env.SECRET,
+      expiresIn: '48h',
     });
 
     return refreshToken;
+  }
+
+  async validateAccess(token: string): Promise<UserPayloadDto> {
+    token = token.split(' ')[1];
+
+    const decoded = await this.jwt.verify(token, {
+      secret: process.env.SECRET,
+    });
+
+    if (!decoded) throw new UnauthorizedException('refresh 검증 필요');
+
+    return decoded;
+  }
+
+  async validateRefresh(token: string): Promise<UserPayloadDto> {
+    token = token.split(' ')[1];
+
+    const decoded = await this.jwt.verify(token, {
+      secret: process.env.SECRET,
+    });
+
+    if (!decoded) throw new UnauthorizedException('재로그인 필요');
+
+    return decoded;
   }
 }
