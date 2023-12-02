@@ -60,7 +60,11 @@ export class UserService {
     return { accessToken, refreshToken };
   }
 
-  async generateAccess(userPayload: UserPayloadDto) {
+  async logout(token: string) {
+    const decoded = await this.validateAccess(token);
+
+    await this.redis.del([`${decoded.userId}accessToken`, `${decoded.userId}refreshToken`]);
+  }
 
   async updateUser(token: string, userDto: UpdateUserDto) {
     const { major, skills, tel, username } = userDto;

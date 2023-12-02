@@ -29,6 +29,15 @@ export class UserController {
     });
   }
 
+  @Post('/logout')
+  async logout(@Headers('Authorization') token: string) {
+    await this.userService.logout(token);
+
+    return Object.assign({
+      statusCode: 200,
+      message: '로그아웃에 성공했습니다.',
+    });
+  }
 
   @Patch('/profile/update')
   async updateUser(@Headers('Authorization') token: string, @Body() updateUserDto: UpdateUserDto) {
