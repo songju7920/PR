@@ -28,4 +28,15 @@ export class UserController {
       message: '로그인 성공',
     });
   }
+
+
+  @Patch('/profile/update')
+  async updateUser(@Headers('Authorization') token: string, @Body() updateUserDto: UpdateUserDto) {
+    await this.userService.updateUser(token, updateUserDto);
+
+    return Object.assign({
+      statusCode: 200,
+      message: '프로필 수정 성공',
+    });
+  }
 }

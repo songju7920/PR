@@ -61,6 +61,21 @@ export class UserService {
   }
 
   async generateAccess(userPayload: UserPayloadDto) {
+
+  async updateUser(token: string, userDto: UpdateUserDto) {
+    const { major, skills, tel, username } = userDto;
+    const decoded = await this.validateRefresh(token);
+
+    await this.user.update(
+      { userId: decoded.userId },
+      {
+        username,
+        major,
+        skills: skills.join(','),
+        tel,
+      },
+    );
+  }
     const accessToken = await this.jwt.sign(userPayload, {
       secret: process.env.SECRET,
     });
