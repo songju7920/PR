@@ -48,4 +48,15 @@ export class UserController {
       message: '프로필 수정 성공',
     });
   }
+
+  @Get('/profile/info/:userId')
+  async getUser(@Param('userId') userId: number, @Headers('Authorization') token: string) {
+    const data = await this.userService.getUser(userId, token);
+
+    return Object.assign({
+      data,
+      statusCode: 200,
+      message: '정보 조회 성공',
+    });
+  }
 }

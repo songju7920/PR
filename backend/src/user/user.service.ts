@@ -80,6 +80,15 @@ export class UserService {
       },
     );
   }
+
+  async getUser(userId: number, token: string): Promise<object> {
+    await this.validateRefresh(token);
+
+    const thisUser = this.user.findOneBy({ userId });
+    if (!thisUser) throw new NotFoundException('존재하지 않는 유저');
+
+    return thisUser;
+  }
     const accessToken = await this.jwt.sign(userPayload, {
       secret: process.env.SECRET,
     });
