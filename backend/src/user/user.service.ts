@@ -89,6 +89,15 @@ export class UserService {
 
     return thisUser;
   }
+
+  async deleteUser(token: string) {
+    const decoded = await this.validateRefresh(token);
+
+    await this.user.delete({ userId: decoded.userId });
+  }
+
+  //인증 & 토큰관리 함수들
+  async generateAccess(userPayload: UserPayloadDto): Promise<string> {
     const accessToken = await this.jwt.sign(userPayload, {
       secret: process.env.SECRET,
     });

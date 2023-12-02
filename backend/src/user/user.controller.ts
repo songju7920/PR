@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/signup.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Controller('user')
 export class UserController {
@@ -57,6 +58,16 @@ export class UserController {
       data,
       statusCode: 200,
       message: '정보 조회 성공',
+    });
+  }
+
+  @Delete('/')
+  async deleteUser(@Headers('Authorization') token: string) {
+    await this.userService.deleteUser(token);
+
+    return Object.assign({
+      statusCode: 204,
+      message: '',
     });
   }
 }
