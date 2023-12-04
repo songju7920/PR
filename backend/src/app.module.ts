@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { configDotenv } from 'dotenv';
 import { UserModule } from './user/user.module';
+import { PostModule } from './post/post.module';
 
 configDotenv()
 
@@ -28,6 +29,7 @@ configDotenv()
       },
     }),
     UserModule,
+    PostModule,
   ],
 })
 export class AppModule {}
