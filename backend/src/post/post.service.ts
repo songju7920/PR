@@ -2,15 +2,14 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './entities/post.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { CreatePostDto } from './dto/createPost.dto';
+import { UpdatePostDto } from './dto/updatePost.dto';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post) private readonly post: Repository<Post>,
-    @InjectRepository(User) private readonly user: Repository<User>,
     private readonly userService: UserService,
   ) {}
 
@@ -34,4 +33,23 @@ export class PostService {
 
     return newPost;
   }
-}
+
+  async endRecruit(token: string, postId: number) {
+    const thisUser = await this.userService.validateAccess(token);
+    const thisPost = await this.post.findOneBy({ postId });
+
+    if (!thisPost) throw new NotFoundException('찾을 수 없는 게시글');
+    if (thisPost.writerId != thisUser.userId) throw new ForbiddenException('권한이 없는 유저');
+
+    await this.post.update(postId, { isEnd: false });
+  }
+
+  async restartRecruit(token: string, postId: number) {
+    const thisUser = await this.userService.validateAccess(token);
+    const thisPost = await this.post.findOneBy({ postId });
+
+    if (!thisPost) throw new NotFoundException('찾을 수 없는 게시물');
+    if (thisUser.userId != thisPost.writerId) throw new ForbiddenException('권한없는 사용자');
+
+    await this.post.update(postId, { isEnd: false });
+  }
