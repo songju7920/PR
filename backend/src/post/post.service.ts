@@ -53,3 +53,13 @@ export class PostService {
 
     await this.post.update(postId, { isEnd: false });
   }
+
+  async deleteRecruit(token: string, postId: number) {
+    const thisUser = await this.userService.validateAccess(token);
+    const thisPost = await this.post.findOneBy({ postId });
+
+    if (!thisPost) throw new NotFoundException('게시물을 찾을 수 없습니다');
+    if (thisUser.userId != thisPost.writerId) throw new ForbiddenException('권한이 없는 유저');
+
+    await this.post.delete(postId);
+  }

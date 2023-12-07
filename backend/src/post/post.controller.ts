@@ -37,3 +37,13 @@ export class PostController {
       message: '상태 변경 성공',
     });
   }
+
+  @Delete('/:postId')
+  async deleteRecruit(@Param('postId') postId: number, @Headers('Authorization') token: string) {
+    await this.postService.deleteRecruit(token, postId);
+
+    return Object.assign({
+      statusCode: 204,
+      message: '',
+    });
+  }
