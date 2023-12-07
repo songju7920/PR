@@ -57,3 +57,15 @@ export class PostController {
       message: '게시물 업데이트',
     });
   }
+
+  @Get('/:postId')
+  async getRecruit(@Param('postId') postId: number, @Headers('Authorization') token: string) {
+    const data = await this.postService.getRecruit(token, postId);
+
+    return Object.assign({
+      data,
+      statusCode: 200,
+      message: '게시물 조회 성공',
+    });
+  }
+}

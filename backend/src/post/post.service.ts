@@ -85,3 +85,13 @@ export class PostService {
       endAt,
     });
   }
+
+  async getRecruit(token: string, postId: number): Promise<object> {
+    await this.userService.validateAccess(token);
+
+    const thisPost = await this.post.findOneBy({ postId });
+    if (!thisPost) throw new NotFoundException('찾을 수 없는 게시물');
+
+    return thisPost;
+  }
+}
