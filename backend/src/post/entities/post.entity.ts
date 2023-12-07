@@ -4,7 +4,7 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn()
-  PostId: number;
+  postId: number;
 
   @Column()
   @OneToOne(() => User, (user) => user.userId)
@@ -17,7 +17,7 @@ export class Post {
   projectTitle: string;
 
   @Column()
-  projectSubTitle: string;
+  projectSubtitle: string;
 
   @Column()
   introduction: string;
@@ -29,11 +29,14 @@ export class Post {
   preferentials: string;
 
   @Column()
-  developmentEnviroment: string;
+  devEnviroment: string;
 
   @Column()
-  skills: string;
+  stacks: string;
 
   @Column()
   endAt: string;
+
+  @Column({ default: true })
+  isEnd: boolean;
 }
