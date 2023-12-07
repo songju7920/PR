@@ -63,3 +63,25 @@ export class PostService {
 
     await this.post.delete(postId);
   }
+
+  async updateRecruit(token: string, postId: number, postDto: UpdatePostDto) {
+    const { projectTitle, projectSubtitle, creater, introduction, qualifications, preferentials, devEnviroment, stacks, endAt } = postDto;
+
+    const thisUser = await this.userService.validateAccess(token);
+    const thisPost = await this.post.findOneBy({ postId });
+
+    if (!thisPost) throw new NotFoundException('찾을 수 없는 게시글');
+    if (thisPost.writerId == thisUser.userId) throw new ForbiddenException('권한 없는 유저');
+
+    await this.post.update(postId, {
+      projectTitle,
+      projectSubtitle,
+      creater,
+      introduction,
+      qualifications,
+      preferentials,
+      devEnviroment,
+      stacks,
+      endAt,
+    });
+  }

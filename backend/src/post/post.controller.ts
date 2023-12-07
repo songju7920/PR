@@ -47,3 +47,13 @@ export class PostController {
       message: '',
     });
   }
+
+  @Patch('/:postId')
+  async updateRecruit(@Param('postId') postId: number, @Headers('Authorization') token: string, @Body() updatePostDto: UpdatePostDto) {
+    await this.postService.updateRecruit(token, postId, updatePostDto);
+
+    return Object.assign({
+      statusCode: 200,
+      message: '게시물 업데이트',
+    });
+  }
