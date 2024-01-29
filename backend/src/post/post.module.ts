@@ -5,9 +5,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Post } from './entities/post.entity';
 import { UserService } from 'src/user/user.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Post])],
+  imports: [
+    TypeOrmModule.forFeature([User, Post]),
+    JwtModule.register({
+      secret: process.env.SECRET,
+      signOptions: {
+        expiresIn: '4h',
+      },
+      verifyOptions: {
+        complete: false,
+      },
+    }),
+  ],
   controllers: [PostController],
   providers: [PostService, UserService],
 })
