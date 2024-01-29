@@ -20,7 +20,7 @@ export class UserService {
   ) {}
 
   async signUp(signupDto: SignupDto): Promise<object> {
-    const { major, skills, password, username } = signupDto;
+    const { majorId, skills, password, username } = signupDto;
 
     const thisUser = await this.user.findOneBy({ username });
     if (thisUser) throw new ConflictException('이미 존재하는 유저이름입니다');
@@ -33,7 +33,7 @@ export class UserService {
       username,
       password: hashPassword,
       skills: skill,
-      major,
+      majorId,
     });
 
     return newUser;
@@ -66,14 +66,14 @@ export class UserService {
   }
 
   async updateUser(token: string, userDto: UpdateUserDto) {
-    const { major, skills, tel, username } = userDto;
+    const { majorId, skills, tel, username } = userDto;
     const decoded = await this.validateRefresh(token);
 
     await this.user.update(
       { userId: decoded.userId },
       {
         username,
-        major,
+        majorId,
         skills: skills.join(','),
         tel,
       },

@@ -5,7 +5,7 @@ export class UpdateUserDto {
   username: string;
 
   @IsNumber()
-  major: number;
+  majorId: number;
 
   @IsArray()
   skills: string[];

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { Major } from './major.entity';
 
 @Entity()
@@ -13,8 +13,8 @@ export class User {
   password: string;
 
   @Column()
-  @OneToOne(() => Major, (major) => major.majorId)
-  major: number;
+  @RelationId((user: User) => user.major)
+  majorId: number;
 
   @Column()
   skills: string;
@@ -24,4 +24,8 @@ export class User {
 
   @Column()
   tel: string;
+
+  @ManyToOne(() => Major, (major) => major.majorId)
+  @JoinColumn({ name: 'majorId' })
+  major: Major;
 }

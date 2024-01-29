@@ -11,5 +11,5 @@ export class SignupDto {
   skills: string[];
 
   @IsNumber()
-  major: number;
+  majorId: number;
 }

@@ -1,5 +1,5 @@
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 @Entity()
 export class Post {
@@ -7,7 +7,7 @@ export class Post {
   postId: number;
 
   @Column()
-  @OneToOne(() => User, (user) => user.userId)
+  @RelationId((post: Post) => post.user)
   writerId: number;
 
   @Column()
@@ -37,6 +37,10 @@ export class Post {
   @Column()
   endAt: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   isEnd: boolean;
+
+  @ManyToOne(() => User, (user) => user.userId)
+  @JoinColumn({ name: 'writerId' })
+  user: User;
 }
