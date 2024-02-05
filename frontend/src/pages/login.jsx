@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PR_Logo from "../assets/img/PR_Logo.png";
 import NotSeeImg from "../assets/img/hide_password.png";
 import SeeImg from "../assets/img/see_password.png";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -59,7 +60,7 @@ const LoginInput = styled.input`
   width: 300px;
   height: 35px;
   border-radius: 10px;
-  margin: 18px 0px;
+  margin: 13px 0px;
   padding-left: 17px;
   border: 0px white;
   box-shadow: 0px 0px 10px lightgray;
@@ -71,10 +72,10 @@ const LoginInput = styled.input`
 `;
 
 const LoginBtn = styled.div`
-  width: 310px;
+  width: 320px;
   height: 40px;
   border-radius: 10px;
-  margin: 5px 0px;
+  margin: 9px 0px;
   background-color: black;
   color: white;
   font-size: 20px;
@@ -95,6 +96,17 @@ const PWStatusImg = styled.div`
   background-image: URL(${(props) => (props.show ? SeeImg : NotSeeImg)});
 `;
 
+const ToSignupPageContainer = styled.div`
+  display: flex;
+  font-size: 12px;
+  margin-top: 3px;
+`;
+
+const ToSignupPage = styled.a`
+  margin-left: 5px;
+  font-weight: 700;
+`;
+
 function LoginPage() {
   let [showPassword, setShowPassword] = useState(false);
 
@@ -103,23 +115,31 @@ function LoginPage() {
   };
 
   return (
-    <Container>
-      <LeftContainer>
-        <Logo />
-        <WelcomeText>언제, 어디서나 팀원을 모집해보세요.</WelcomeText>
-      </LeftContainer>
-      <RightContainer>
-        <LoginForm>
-          <LoginText>Login</LoginText>
-          <LoginInput placeholder="Email or ID" />
-          <PasswordContainer>
-            <LoginInput placeholder="password" type={showPassword ? "text" : "password"} />
-            <PWStatusImg show={showPassword} onClick={changeShowPassword} />
-          </PasswordContainer>
-          <LoginBtn as="Button">Login</LoginBtn>
-        </LoginForm>
-      </RightContainer>
-    </Container>
+    <>
+      <Container>
+        <LeftContainer>
+          <Logo />
+          <WelcomeText>언제, 어디서나 팀원을 모집해보세요.</WelcomeText>
+        </LeftContainer>
+        <RightContainer>
+          <LoginForm>
+            <LoginText>Login</LoginText>
+            <LoginInput placeholder="Email or ID" />
+            <PasswordContainer>
+              <LoginInput placeholder="password" type={showPassword ? "text" : "password"} />
+              <PWStatusImg show={showPassword} onClick={changeShowPassword} />
+            </PasswordContainer>
+            <LoginBtn as="Button">Login</LoginBtn>
+            <ToSignupPageContainer>
+              계정이 없으신가요?
+              <Link to="/signup">
+                <ToSignupPage>회원가입 하러가기</ToSignupPage>
+              </Link>
+            </ToSignupPageContainer>
+          </LoginForm>
+        </RightContainer>
+      </Container>
+    </>
   );
 }
 
