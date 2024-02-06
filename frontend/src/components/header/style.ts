@@ -9,12 +9,6 @@ export const Container = styled.div`
   width: 85%;
 `;
 
-export const SearchImg = styled.div`
-  width: 25px;
-  height: 25px;
-  background-size: 25px;
-`;
-
 export const SearchBar = styled.input`
   margin-left: 10px;
   width: 450px;
