@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 100%;
+  width: 85%;
+  height: 92vh;
   display: flex;
+  padding-left: 15%;
+  padding-top: 8vh;
   flex-direction: column;
-  flex-wrap: wrap;
 `;
 
 export const DashboardContainer = styled.div`
@@ -13,7 +14,7 @@ export const DashboardContainer = styled.div`
   flex-wrap: wrap;
   margin: 0px;
   height: 74vh;
-  width: 75%;
+  width: 88.5%;
   padding: 5vh 9.5vh;
   background-color: #f9f9f9;
 `;
@@ -61,7 +62,7 @@ export const ProfileImg = styled.div`
   width: 115px;
   border-radius: 57.5px;
   background-size: 115px;
-  background-image: URL("https://i1.sndcdn.com/artworks-nkKav7dy9Bn0oeuz-eiRVSg-t500x500.jpg");
+  background-image: URL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg7CO_ZSKP7-cnq7mEKQNuXgwkAOQ43EOZew&usqp=CAU");
 `;
 
 export const Username = styled.p`

@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 15%;
+  z-index: 100;
 `;
 
 export const UpperMenu = styled.div`
@@ -39,7 +41,7 @@ export const MenuListContainer = styled.div`
 
 export const MenuContainer = styled.div<{ isActive: boolean }>`
   padding-left: 40px;
-  width: 210px;
+  width: 195px;
   height: 50px;
   display: flex;
   justify-content: start;

@@ -2,11 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  position: fixed;
   align-items: center;
   justify-content: flex-start;
   background-color: #fffcfc;
   height: 8vh;
   width: 85%;
+  padding-left: 15%;
 `;
 
 export const SearchBar = styled.input`

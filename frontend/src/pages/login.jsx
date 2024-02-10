@@ -87,7 +87,7 @@ const PasswordContainer = styled.div`
 `;
 
 const PWStatusImg = styled.div`
-  bottom: 29px;
+  bottom: 24px;
   left: 285px;
   width: 20px;
   height: 18px;

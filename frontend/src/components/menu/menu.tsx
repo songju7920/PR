@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import * as S from "./style.ts";
 import { ReactComponent as PRLogo } from "../../assets/img/icons/logo.svg";
 import { ReactComponent as Dashboard } from "../../assets/img/icons/dashboard.svg";
@@ -10,30 +10,25 @@ import { ReactComponent as CDashboard } from "../../assets/img/icons/Cdashboard.
 import { ReactComponent as CProjects } from "../../assets/img/icons/Cproject.svg";
 import { ReactComponent as CChat } from "../../assets/img/icons/Cchat.svg";
 import { ReactComponent as CRequest } from "../../assets/img/icons/Crequest.svg";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 function Menu() {
-  const [activeIcon, setActiveIcon] = useState("dashboard");
+  const location = useLocation();
+
+  const activeIcon = location.pathname.split("/")[1];
   const navigate = useNavigate();
 
   const handleClick = (iconType: string) => {
-    setActiveIcon(iconType);
-    switch (iconType) {
-      case "dashboard":
-        navigate("/home");
-        break;
-      case "project":
-        navigate("/projects");
-        break;
-      case "chat":
-        navigate("/chat");
-        break;
-      case "requests":
-        navigate("/requests");
-        break;
-      case "my_project":
-        navigate("/myProject");
-        break;
+    if (iconType === "home") {
+      navigate("/home");
+    } else if (iconType === "projects") {
+      navigate("/projects?sort=desc");
+    } else if (iconType === "chat") {
+      navigate("/chat");
+    } else if (iconType === "requests") {
+      navigate("/requests");
+    } else if (iconType === "my_project") {
+      navigate("/myProject");
     }
   };
 
@@ -44,15 +39,15 @@ function Menu() {
           <PRLogo />
         </S.LogoWrapper>
         <S.MenuListContainer>
-          <S.MenuContainer isActive={activeIcon === "dashboard"} onClick={() => handleClick("dashboard")}>
-            {activeIcon === "dashboard" ? <CDashboard /> : <Dashboard />}
-            <S.MenuName isActive={activeIcon === "dashboard"}>dashbaord</S.MenuName>
-            {activeIcon === "dashboard" && <S.SelectIcon />}
+          <S.MenuContainer isActive={activeIcon === "home"} onClick={() => handleClick("home")}>
+            {activeIcon === "home" ? <CDashboard /> : <Dashboard />}
+            <S.MenuName isActive={activeIcon === "home"}>dashbaord</S.MenuName>
+            {activeIcon === "home" && <S.SelectIcon />}
           </S.MenuContainer>
-          <S.MenuContainer isActive={activeIcon === "project"} onClick={() => handleClick("project")}>
-            {activeIcon === "project" ? <CProjects /> : <Projects />}
-            <S.MenuName isActive={activeIcon === "project"}>projects</S.MenuName>
-            {activeIcon === "project" && <S.SelectIcon />}
+          <S.MenuContainer isActive={activeIcon === "projects"} onClick={() => handleClick("projects")}>
+            {activeIcon === "projects" ? <CProjects /> : <Projects />}
+            <S.MenuName isActive={activeIcon === "projects"}>projects</S.MenuName>
+            {activeIcon === "projects" && <S.SelectIcon />}
           </S.MenuContainer>
           <S.MenuContainer isActive={activeIcon === "chat"} onClick={() => handleClick("chat")}>
             {activeIcon === "chat" ? <CChat /> : <Chat />}
