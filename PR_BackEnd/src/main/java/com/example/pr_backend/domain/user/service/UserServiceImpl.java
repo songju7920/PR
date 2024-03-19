@@ -1,8 +1,10 @@
 package com.example.pr_backend.domain.user.service;
 
+import com.example.pr_backend.domain.user.model.Major;
 import com.example.pr_backend.domain.user.model.User;
 import com.example.pr_backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,14 +13,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    final private PasswordEncoder passwordEncoder;
     final private UserRepository userRepository;
 
     @Override
-    public String signup(String username, String password, String skills) {
-        User user = User.builder().username(username).password(password).skills(skills).build();
-        userRepository.save(user);
+    public void signup(String username, String password, String skills, String major) {
+        Major majorType;
 
-        return "success";
+        try {
+            majorType = Major.valueOf(major);
+        } catch(Exception ex) {
+            throw new RuntimeException("존재하지 않는 Enum type");
+        }
+
+        User user = User.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .skills(skills)
+                .major(majorType)
+                .build();
+        userRepository.save(user);
     }
 
     @Override
