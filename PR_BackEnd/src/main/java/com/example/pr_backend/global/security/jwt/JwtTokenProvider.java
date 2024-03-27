@@ -39,17 +39,17 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     // AccessToken 생성
-    public String generateAccess(Authentication authentication) {
+    public String generateAccess(String username) {
         // Calculate Expire Time
         long now = (new Date()).getTime();
         Date expireAt = new Date(now + 8400000);
 
         // Generate Token
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(username)
                 .claim("type", "access")
                 .setExpiration(expireAt)
-                .signWith(key, SignatureAlgorithm.ES512)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 

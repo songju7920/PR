@@ -1,6 +1,8 @@
 package com.example.pr_backend.domain.user.controller;
 
+import com.example.pr_backend.domain.user.dto.request.LoginDto;
 import com.example.pr_backend.domain.user.dto.request.SignupDto;
+import com.example.pr_backend.domain.user.dto.response.TokenResponse;
 import com.example.pr_backend.domain.user.model.Major;
 import com.example.pr_backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,14 @@ public class UserController {
         String major = signupDto.getMajor();
 
         userService.signup(username, password, skills, major);
+    }
+
+    @PostMapping("/user/login")
+    public TokenResponse login(@RequestBody LoginDto loginDto) {
+        String username = loginDto.getUsername();
+        String password = loginDto.getPassword();
+
+        return userService.login(username, password);
     }
 
     @DeleteMapping("/user/{userId}")
