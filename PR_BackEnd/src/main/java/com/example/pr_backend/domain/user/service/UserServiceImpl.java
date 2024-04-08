@@ -1,6 +1,9 @@
 package com.example.pr_backend.domain.user.service;
 
 import com.example.pr_backend.domain.user.dto.response.TokenResponse;
+import com.example.pr_backend.domain.user.exception.NotFoundEnumTypeException;
+import com.example.pr_backend.domain.user.exception.PasswordMismatchException;
+import com.example.pr_backend.domain.user.exception.UserAlreadyExistException;
 import com.example.pr_backend.domain.user.model.Major;
 import com.example.pr_backend.domain.user.model.User;
 import com.example.pr_backend.domain.user.repository.UserRepository;
@@ -27,7 +30,11 @@ public class UserServiceImpl implements UserService {
         try {
             majorType = Major.valueOf(major);
         } catch(Exception ex) {
-            throw new RuntimeException("존재하지 않는 Enum type");
+            throw NotFoundEnumTypeException.EXCEPTION;
+        }
+
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw UserAlreadyExistException.EXCEPTION;
         }
 
         User user = User.builder()
@@ -45,7 +52,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException();
+            throw PasswordMismatchException.EXCEPTION;
         }
 
         return TokenResponse
