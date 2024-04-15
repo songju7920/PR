@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import logoImg from "../asset/img/PR_logo.svg";
-import notSeeImg from "../asset/img/notSeeImg.svg";
-import seeImg from "../asset/img/seeImg.svg";
+import logoImg from "../../asset/img/PR_logo.svg";
+import notSeeImg from "../../asset/img/notSeeImg.svg";
+import seeImg from "../../asset/img/seeImg.svg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function App() {
+function Login() {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ ID: "", PW: "" });
   const [hidePW, setHidePW] = useState("password");
 
@@ -17,6 +19,7 @@ function App() {
       .then((res) => {
         console.log(res);
         localStorage.setItem("access_token", res.data.accessToken);
+        navigate("/home");
       })
       .catch((err) => {
         const { data } = err.response;
@@ -75,7 +78,7 @@ function App() {
         </button>
         <div className="flex text-sm font-medium">
           <p className="mr-1">계정이 없으신가요?</p>
-          <a href="google.com" className="text-purple-900 font-black">
+          <a href="signup" className="text-purple-900 font-black">
             회원가입 하러 가기
           </a>
         </div>
@@ -84,4 +87,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;
