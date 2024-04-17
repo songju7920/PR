@@ -12,14 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 
 // JWT 인증/발급 클래스
@@ -39,7 +37,7 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     // AccessToken 생성
-    public String generateAccess(String username) {
+    public String generateAccess(String username, Long userId) {
         // Calculate Expire Time
         long now = (new Date()).getTime();
         Date expireAt = new Date(now + 8400000);
@@ -48,6 +46,7 @@ public class JwtTokenProvider implements InitializingBean {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("type", "access")
+                .claim("userId", userId)
                 .setExpiration(expireAt)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
