@@ -19,13 +19,13 @@ function Login() {
       .then((res) => {
         console.log(res);
         localStorage.setItem("access_token", res.data.accessToken);
-        navigate("/home");
+        localStorage.setItem("userId", res.data.user_id);
+        navigate(`/dashboard/${res.data.user_id}`);
       })
       .catch((err) => {
+        console.log(err);
         const { data } = err.response;
-        if (data.statusCode === 404) {
-          alert(data.message);
-        }
+        alert(data.message);
       });
   };
 
@@ -71,7 +71,7 @@ function Login() {
             onChange={onChange}
             className="border-solid w-[19rem] px-5 py-2 rounded-xl outline-none mb-5 shadow-[2px_3px_4px_#dadada]"
           ></input>
-          <img src={hidePW === "password" ? notSeeImg : seeImg} onClick={changeHidePW} className="absolute left-[16.8rem] bottom-[1.7rem]"></img>
+          <img src={hidePW === "password" ? notSeeImg : seeImg} onClick={changeHidePW} className="absolute left-[16.8rem] bottom-[1.7rem] hover:cursor-pointer"></img>
         </div>
         <button onClick={onClick} className="font-bold text-xl w-[19.4rem] h-10 text-white bg-black rounded-xl mb-3">
           Login
