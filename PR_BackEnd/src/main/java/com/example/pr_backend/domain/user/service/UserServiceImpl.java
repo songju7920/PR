@@ -1,9 +1,11 @@
 package com.example.pr_backend.domain.user.service;
 
 import com.example.pr_backend.domain.user.dto.response.TokenResponse;
+import com.example.pr_backend.domain.user.dto.response.UserInfoDto;
 import com.example.pr_backend.domain.user.exception.NotFoundEnumTypeException;
 import com.example.pr_backend.domain.user.exception.PasswordMismatchException;
 import com.example.pr_backend.domain.user.exception.UserAlreadyExistException;
+import com.example.pr_backend.domain.user.exception.UserNotFoundException;
 import com.example.pr_backend.domain.user.model.Major;
 import com.example.pr_backend.domain.user.model.User;
 import com.example.pr_backend.domain.user.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +52,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public TokenResponse login(String username, String password) {
-        User user = userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
@@ -57,7 +61,8 @@ public class UserServiceImpl implements UserService {
 
         return TokenResponse
                 .builder()
-                .accessToken(jwtTokenProvider.generateAccess(user.getUsername()))
+                .accessToken(jwtTokenProvider.generateAccess(user.getUsername(), user.getUser_id()))
+                .user_id(user.getUser_id())
                 .build();
     }
 
@@ -68,7 +73,22 @@ public class UserServiceImpl implements UserService {
         if (user.isPresent()) {
             userRepository.deleteById(user_id);
         } else {
-            throw new RuntimeException("유저를 찾을 수 없음");
+            throw UserNotFoundException.EXCEPTION;
         }
+    }
+
+    @Override
+    public UserInfoDto getUserData(Long user_id) {
+        User user = userRepository.findById(user_id)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        return UserInfoDto.builder()
+                .user_id(user_id)
+                .username(user.getUsername())
+                .skills(user.getSkills())
+                .mail(user.getMail())
+                .tel(user.getTel())
+                .major(user.getMajor())
+                .build();
     }
 }

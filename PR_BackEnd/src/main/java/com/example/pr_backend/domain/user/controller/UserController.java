@@ -3,7 +3,7 @@ package com.example.pr_backend.domain.user.controller;
 import com.example.pr_backend.domain.user.dto.request.LoginDto;
 import com.example.pr_backend.domain.user.dto.request.SignupDto;
 import com.example.pr_backend.domain.user.dto.response.TokenResponse;
-import com.example.pr_backend.domain.user.model.Major;
+import com.example.pr_backend.domain.user.dto.response.UserInfoDto;
 import com.example.pr_backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +36,11 @@ public class UserController {
     public void deleteAcc (@PathVariable("userId") String user_id) {
 
         userService.deleteAcc(Long.parseLong(user_id));
+    }
+
+    @GetMapping("/user/profile/info/{userId}")
+    public UserInfoDto getUserData (@PathVariable("userId") String user_id) {
+
+        return userService.getUserData(Long.parseLong(user_id));
     }
 }
