@@ -10,6 +10,7 @@ import request from "../../asset/img/request.svg";
 import requestActive from "../../asset/img/requestActive.svg";
 import myProjects from "../../asset/img/myprojects.svg";
 import myProjectActive from "../../asset/img/myProjectActive.svg";
+import logout from "../../asset/img/logout.svg";
 import NavBtn from "./navBtn.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -30,14 +31,26 @@ const Nav = (props: props) => {
     }
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("userId");
+    navigate("/");
+  };
+
   return (
-    <div className="flex flex-col items-center pt-[2rem] w-[17.5rem] max-h-dvh bg-gray1">
-      <img src={PR_logo} width={"140px"} />
-      <NavBtn curruntPage={curruntPage} name={"dashboard"} ActiveImg={dashboardActive} DisabledImg={dashboard} ClickEvent={onClick} />
-      <NavBtn curruntPage={curruntPage} name={"projects"} ActiveImg={projectsActive} DisabledImg={projects} ClickEvent={onClick} />
-      <NavBtn curruntPage={curruntPage} name={"chattings"} ActiveImg={chattingsActive} DisabledImg={chattings} ClickEvent={onClick} />
-      <NavBtn curruntPage={curruntPage} name={"requests"} ActiveImg={requestActive} DisabledImg={request} ClickEvent={onClick} />
-      <NavBtn curruntPage={curruntPage} name={"my-projects"} ActiveImg={myProjectActive} DisabledImg={myProjects} ClickEvent={onClick} />
+    <div className="flex flex-col w-[17.5rem] h-dvh">
+      <div className="flex flex-col items-center pt-[2rem] w-full h-[90rem] bg-gray1">
+        <img src={PR_logo} width={"140px"} />
+        <NavBtn curruntPage={curruntPage} name={"dashboard"} ActiveImg={dashboardActive} DisabledImg={dashboard} ClickEvent={onClick} />
+        <NavBtn curruntPage={curruntPage} name={"projects"} ActiveImg={projectsActive} DisabledImg={projects} ClickEvent={onClick} />
+        <NavBtn curruntPage={curruntPage} name={"chattings"} ActiveImg={chattingsActive} DisabledImg={chattings} ClickEvent={onClick} />
+        <NavBtn curruntPage={curruntPage} name={"requests"} ActiveImg={requestActive} DisabledImg={request} ClickEvent={onClick} />
+        <NavBtn curruntPage={curruntPage} name={"my-projects"} ActiveImg={myProjectActive} DisabledImg={myProjects} ClickEvent={onClick} />
+      </div>
+      <div className="flex items-center w-full h-[10.3rem] bg-logoutBtnColor hover:cursor-pointer" onClick={logoutHandler}>
+        <img src={logout} className="ml-[2rem] mr-[1rem]" />
+        <p className="font-semibold text-gray2">log out</p>
+      </div>
     </div>
   );
 };
