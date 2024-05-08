@@ -1,8 +1,8 @@
 import React from "react";
-import searchIcon from "../../asset/img/searchIcon.svg";
-import chattingIcon from "../../asset/img/chattingIcon.svg";
-import alarmIcon from "../../asset/img/alarmIcon.svg";
-import testProfile from "../../asset/img/test profile.png";
+import searchIcon from "../../../asset/img/searchIcon.svg";
+import chattingIcon from "../../../asset/img/chattingIcon.svg";
+import alarmIcon from "../../../asset/img/alarmIcon.svg";
+import testProfile from "../../../asset/img/testImgs/testProfile.png";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {

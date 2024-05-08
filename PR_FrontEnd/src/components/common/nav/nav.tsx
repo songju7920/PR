@@ -1,16 +1,16 @@
 import React, { SetStateAction, useState } from "react";
-import PR_logo from "../../asset/img/PR_logo.svg";
-import dashboard from "../../asset/img/dashboard.svg";
-import dashboardActive from "../../asset/img/dashboardActive.svg";
-import projects from "../../asset/img/projects.svg";
-import projectsActive from "../../asset/img/projectActive.svg";
-import chattings from "../../asset/img/chatting.svg";
-import chattingsActive from "../../asset/img/chattingActive.svg";
-import request from "../../asset/img/request.svg";
-import requestActive from "../../asset/img/requestActive.svg";
-import myProjects from "../../asset/img/myprojects.svg";
-import myProjectActive from "../../asset/img/myProjectActive.svg";
-import logout from "../../asset/img/logout.svg";
+import PR_logo from "../../../asset/img/PR_logo.svg";
+import dashboard from "../../../asset/img/dashboard.svg";
+import dashboardActive from "../../../asset/img/dashboardActive.svg";
+import projects from "../../../asset/img/projects.svg";
+import projectsActive from "../../../asset/img/projectActive.svg";
+import chattings from "../../../asset/img/chatting.svg";
+import chattingsActive from "../../../asset/img/chattingActive.svg";
+import request from "../../../asset/img/request.svg";
+import requestActive from "../../../asset/img/requestActive.svg";
+import myProjects from "../../../asset/img/myprojects.svg";
+import myProjectActive from "../../../asset/img/myProjectActive.svg";
+import logout from "../../../asset/img/logout.svg";
 import NavBtn from "./navBtn.tsx";
 import { useNavigate } from "react-router-dom";
 
