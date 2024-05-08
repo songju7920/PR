@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import logoImg from "../../asset/img/PR_logo.svg";
 import notSeeImg from "../../asset/img/notSeeImg.svg";
 import seeImg from "../../asset/img/seeImg.svg";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../api/user.ts";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,11 +11,7 @@ function Login() {
   const [hidePW, setHidePW] = useState("password");
 
   const onClick = () => {
-    axios
-      .post("http://localhost:8080/user/login", {
-        username: loginData.ID,
-        password: loginData.PW
-      })
+    login({ username: loginData.ID, password: loginData.PW })
       .then((res) => {
         console.log(res);
         localStorage.setItem("access_token", res.data.accessToken);
