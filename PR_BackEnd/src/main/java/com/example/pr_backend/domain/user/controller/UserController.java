@@ -6,22 +6,25 @@ import com.example.pr_backend.domain.user.dto.response.TokenResponse;
 import com.example.pr_backend.domain.user.dto.response.UserInfoDto;
 import com.example.pr_backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RestController()
+@RestController
 @RequiredArgsConstructor
 public class UserController {
 
     final private UserService userService;
 
     @PostMapping("/user/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     public void signup (@RequestBody SignupDto signupDto) {
-        String username = signupDto.getUsername();
-        String password = signupDto.getPassword();
-        String skills = signupDto.getSkills();
-        String major = signupDto.getMajor();
+        String username = signupDto.username();
+        String password = signupDto.password();
+        String skills = signupDto.skills();
+        String major = signupDto.major();
+        String email = signupDto.email();
 
-        userService.signup(username, password, skills, major);
+        userService.signup(username, password, skills, major, email);
     }
 
     @PostMapping("/user/login")

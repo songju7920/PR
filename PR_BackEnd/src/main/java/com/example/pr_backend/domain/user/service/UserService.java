@@ -4,7 +4,7 @@ import com.example.pr_backend.domain.user.dto.response.TokenResponse;
 import com.example.pr_backend.domain.user.dto.response.UserInfoDto;
 
 public interface UserService {
-    void signup(String username, String password, String skills, String major);
+    void signup(String username, String password, String skills, String major, String Email);
 
     TokenResponse login(String username, String password);
 

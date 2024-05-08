@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
     final private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void signup(String username, String password, String skills, String major) {
+    public void signup(String username, String password, String skills, String major, String email) {
         Major majorType;
 
         try {
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
             throw NotFoundEnumTypeException.EXCEPTION;
         }
 
-        if (userRepository.findByUsername(username).isPresent()) {
+        if (userRepository.existsByUsernameOrEmail(username, email)) {
             throw UserAlreadyExistException.EXCEPTION;
         }
 
@@ -44,6 +43,7 @@ public class UserServiceImpl implements UserService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .skills(skills)
+                .email(email)
                 .major(majorType)
                 .build();
         userRepository.save(user);
@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
 
         return TokenResponse
                 .builder()
-                .accessToken(jwtTokenProvider.generateAccess(user.getUsername(), user.getUser_id()))
-                .user_id(user.getUser_id())
+                .accessToken(jwtTokenProvider.generateAccess(user.getUsername(), user.getUserId()))
+                .user_id(user.getUserId())
                 .build();
     }
 
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
                 .user_id(user_id)
                 .username(user.getUsername())
                 .skills(user.getSkills())
-                .mail(user.getMail())
+                .mail(user.getEmail())
                 .tel(user.getTel())
                 .major(user.getMajor())
                 .build();
