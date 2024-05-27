@@ -4,6 +4,7 @@ import Login from "./pages/login/login.tsx";
 import UserInfo from "./pages/userInfo/userInfo.tsx";
 import NotFound from "./pages/error/NotFound.tsx";
 import Signup from "./pages/signup/signup.tsx";
+import Projects from "./pages/projects/projects.tsx";
 
 const route = () => {
   return (
@@ -11,6 +12,7 @@ const route = () => {
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/dashboard/:userId" element={<UserInfo />} />
+      <Route path="/projects" element={<Projects />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

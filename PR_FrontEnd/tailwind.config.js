@@ -10,7 +10,8 @@ module.exports = {
         gray4: "#A49F9F",
         logoutBtnColor: "#F8F7F5",
         backGroundColor: "#F9F9F9",
-        purple1: "#4E5686"
+        purple1: "#4E5686",
+        EAEBEE: "#EAEBEE"
       },
       fontSize: {
         "30px": "20px"
