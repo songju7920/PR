@@ -15,11 +15,11 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "projects")
 public class Project {
     @Id
-    @GeneratedValue
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long post_id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
