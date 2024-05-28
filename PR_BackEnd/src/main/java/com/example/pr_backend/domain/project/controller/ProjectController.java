@@ -15,7 +15,10 @@ public class ProjectController {
 
     @PostMapping("/post/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProject(Authentication authentication, @RequestBody CreateProjectRequestDto createProjectRequestDto) {
+    public void createProject(
+            Authentication authentication,
+            @RequestBody CreateProjectRequestDto createProjectRequestDto
+    ) {
         projectService.createProject(authentication, createProjectRequestDto);
     }
 

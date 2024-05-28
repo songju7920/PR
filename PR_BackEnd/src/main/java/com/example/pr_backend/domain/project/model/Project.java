@@ -29,6 +29,11 @@ public class Project {
     @ColumnDefault("false")
     private Boolean is_recruiting;
 
+    // S3배포후 기본이미지 지정 필요
+    @Column(nullable = false)
+    @ColumnDefault("'https://buly.kr/1xwWgdF'")
+    private String logo;
+
     @ManyToOne
     @JoinColumn(name = "writer_id")
     private User user;
