@@ -26,4 +26,12 @@ public class ProjectController {
     public SearchProjectRequestDto searchProjects(@RequestParam("keyword") String keyword) {
         return projectService.searchProject(keyword);
     }
+
+    @DeleteMapping("/project/{postId}")
+    public void deleteProject(
+            Authentication authentication,
+            @PathVariable("postId") Long postId
+    ) {
+        projectService.DeleteProject(authentication, postId);
+    }
 }

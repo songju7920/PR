@@ -8,4 +8,6 @@ public interface ProjectService {
     public void createProject(Authentication authentication, CreateProjectRequestDto createProjectRequestDto);
 
     public SearchProjectRequestDto searchProject(String keyword);
+
+    public void DeleteProject(Authentication authentication, Long userId);
 }

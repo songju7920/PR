@@ -14,8 +14,12 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(409, "role not exists"),
     USER_ALREADY_EXISTS(409, "user already exists"),
 
+    // Post
+    POST_NOT_FOUND(404, "post not found"),
+
     // general
     BAD_REQUEST(400, "bad request"),
+    FORBIDDEN(401, "have no authorization"),
     INTERNAL_SERVER_ERROR(500, "server error");
 
     private final int StatusCode;
